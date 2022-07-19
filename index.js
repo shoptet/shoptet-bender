@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import browserSync from 'browser-sync';
 import command from './cli.js';
 

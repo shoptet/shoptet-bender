@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "An application for Shoptet visual addons development",
   "main": "index.js",
+  "bin": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
