@@ -1,0 +1,17 @@
+{
+  "name": "shoptet-visual-addon",
+  "version": "0.0.1",
+  "description": "An application for Shoptet visual addons development",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shoptet",
+  "license": "ISC",
+  "dependencies": {
+    "browser-sync": "^2.27.10",
+    "commander": "^9.4.0"
+  }
+}
