@@ -1,5 +1,5 @@
 {
-  "name": "shoptet-visual-addon",
+  "name": "shoptet-visual-addon-local",
   "version": "0.0.1",
   "description": "An application for Shoptet visual addons development",
   "main": "index.js",
