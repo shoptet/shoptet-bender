@@ -1,11 +1,13 @@
 import { Command } from 'commander';
-// import {name, description, version} from 'package.json';
 import { readFileSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const command = new Command();
 
 const packageInfo = JSON.parse(
-    readFileSync('./package.json', 'utf8')
+    readFileSync(path.resolve(__dirname, './package.json'))
 );
 
 command
