@@ -1,16 +1,16 @@
 import { Command } from 'commander';
-import { readFileSync } from 'fs';
+// import { readFileSync } from 'fs';
 
 const command = new Command();
 
-const packageInfo = JSON.parse(
-    readFileSync('./package.json', 'utf8')
-);
+// const packageInfo = JSON.parse(
+//     readFileSync('./package.json', 'utf8')
+// );
 
-command
-    .name(packageInfo.name)
-    .description(packageInfo.description)
-    .version(packageInfo.version);
+// command
+//     .name(packageInfo.name)
+//     .description(packageInfo.description)
+//     .version(packageInfo.version);
 
 command
     .option('-r, --remote <url>', 'URL of the remote Eshop with https:// prefix')
