@@ -12,14 +12,12 @@ const defaultFolder = "./src";
 
 const blankModeStyle = {
     match: /<link rel="stylesheet" media="all" href="https:\/\/cdn\.myshoptet\.com.*>/i,
-    fn: function (req, res, match) { return '';},
+    fn: function () { return ('');},
 }
 
 const blankModeScript = {
     match: /<script src="https:\/\/cdn.myshoptet.com.*>/i,
-    fn: function (req, res, match) {
-        return '';
-    },
+    fn: function () { return ('');},
 };
 
 const scriptStyle = {
@@ -33,9 +31,9 @@ const scriptStyle = {
 }
 
 const rewriteRules = [
+    {...scriptStyle},
     {...(options.blankMode && blankModeStyle)},
-    {...(options.blankMode && blankModeScript)},
-    {...scriptStyle}
+    {...(options.blankMode && blankModeScript)}
 ];
 
 browserSync({
@@ -43,5 +41,5 @@ browserSync({
     watch: options.watch,
     files: options.folder ? './'+options.folder+'/*' : defaultFolder+'/*',
     serveStatic: [options.folder ?? defaultFolder],
-    rewriteRules: rewriteRules,
+    rewriteRules: rewriteRules.filter(value => Object.keys(value).length !== 0),
 });
