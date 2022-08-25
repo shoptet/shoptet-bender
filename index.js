@@ -2,13 +2,11 @@
 
 import browserSync from 'browser-sync';
 import command from './cli.js';
+import { config } from './config.js'
 
 command.parse(process.argv);
 
 const options = command.opts();
-const defaultUrl = "https://classic.shoptet.cz/";
-const defaultFolder = "./src";
-
 
 const blankModeStyle = {
     match: /<link rel="stylesheet" media="all" href="https:\/\/cdn\.myshoptet\.com.*>/i,
@@ -36,10 +34,12 @@ const rewriteRules = [
     {...(options.blankMode && blankModeScript)}
 ];
 
-browserSync({
-    proxy: { target: options.remote ?? defaultUrl },
+const bs = browserSync({
+    proxy: { target: options.remote ?? config.defaultUrl },
     watch: options.watch,
-    files: options.folder ? './'+options.folder+'/*' : defaultFolder+'/*',
-    serveStatic: [options.folder ?? defaultFolder],
-    rewriteRules: rewriteRules.filter(value => Object.keys(value).length !== 0),
+    files: [options.folder ? './' + options.folder + '/*' : config.defaultFolder + '/*'],
+    serveStatic: [options.folder ?? config.defaultFolder],
+    rewriteRules: rewriteRules.filter(
+        (value) => Object.keys(value).length !== 0
+    )
 });
