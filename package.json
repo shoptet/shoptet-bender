@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "watch": "npx parcel src/*.js src/*.less --hmr-port 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shoptet",
@@ -14,6 +15,11 @@
   "dependencies": {
     "browser-sync": "^2.27.10",
     "commander": "^9.4.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "parcel": "^2.7.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-less": "^2.7.0",
+    "@parcel/transformer-sass": "^2.7.0"
   }
 }
