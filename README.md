@@ -12,9 +12,15 @@ C(Local files) -- Static served files --> B
 ```
 
 ## Install
-Node v14 prerequisited\
+Node >= 14 prerequisited\
 Install global using yarn:\
 `yarn global add git+https://github.com/shoptet/shoptet-bender.git`
+
+ℹ️ On Windows platform, you may need to add Yarn binary to your path:
+- copy the output of the `yarn global bin` command, e.g. *C:\Users\YOUR_PROFILE\AppData\Local\Yarn\bin*
+- open "**System properties**" and click on the "**Environment Variables**" button
+- select "**Path**", click on "**Edit**" -> "**New**", paste the copied output and save
+- you need to open a new instance of the CLI interface to take an effect
 
 ## Usage
 Try `shp-bender -h` for CLI help
