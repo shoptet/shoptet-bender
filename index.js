@@ -34,12 +34,14 @@ const rewriteRules = [
     {...(options.blankMode && blankModeScript)}
 ];
 
-const bs = browserSync({
+const bs = browserSync.create();
+bs.init({
     proxy: { target: options.remote ?? config.defaultUrl },
     watch: options.watch,
     files: [options.folder ? './' + options.folder + '/*' : config.defaultFolder + '/*'],
     serveStatic: [options.folder ?? config.defaultFolder],
     rewriteRules: rewriteRules.filter(
         (value) => Object.keys(value).length !== 0
-    )
+    ),
+    notify: options.notify
 });
