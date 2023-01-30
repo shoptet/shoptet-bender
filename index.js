@@ -43,5 +43,6 @@ bs.init({
     rewriteRules: rewriteRules.filter(
         (value) => Object.keys(value).length !== 0
     ),
+    port: 3010,
     notify: options.notify
 });
