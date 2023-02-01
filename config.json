@@ -1,5 +1,7 @@
 {
-    "defaultUrl": "https://classic.shoptet.cz/",
-    "defaultFolder": "./src",
-    "outputFolder": "./dist"
+    "defaultUrl": "https://www.extratisk.cz/",
+    "defaultFolder": "/Users/Jan/Můj disk/1 🕹️ Projekty/_Zakazky/_ShoptetTest/eshopy/extratisk",
+    "outputFolder": "/Users/Jan/Můj disk/1 🕹️ Projekty/_Zakazky/_ShoptetTest/eshopy/extratisk",
+    "cssFileName": "/assets/css/extratisk.css",
+    "jsFileName": "/assets/js/extratisk.js"
 }
