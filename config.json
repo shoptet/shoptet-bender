@@ -2,6 +2,6 @@
     "defaultUrl": "https://classic.shoptet.cz/",
     "defaultFolder": "./src",
     "outputFolder": "./dist",
-    "cssFileName": "/assets/css/css.css",
-    "jsFileName": "/assets/js/js.js"
+    "cssFileName": "/assets/css/style.css",
+    "jsFileName": "/assets/js/script.js"
 }
