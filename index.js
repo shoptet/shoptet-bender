@@ -18,11 +18,22 @@ const blankModeScript = {
     fn: function () { return ('');},
 };
 
+const runDelBenderScript = {
+  match: new RegExp("<script id='"+config.deleteJsFile+"'.*>", "i"),
+  fn: function () {
+    return ('');
+  },
+};
+const blankModeCss = {
+  match: new RegExp("<link id='"+config.deleteCssFile+"'.*>", "i"),
+  fn: function () { return (''); },
+};
+
 const scriptStyle = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
         return (
-            '<script src="'+config.jsFileName+'"></script><link rel="stylesheet" href="'+config.cssFileName+'">' +
+            '<script type="module" src="'+config.jsFileName+'"></script><link rel="stylesheet" href="'+config.cssFileName+'">' +
             match
         );
     },
@@ -30,6 +41,8 @@ const scriptStyle = {
 
 const rewriteRules = [
     {...scriptStyle},
+{ ...runDelBenderScript },
+{ ...blankModeCss },
     {...(options.blankMode && blankModeStyle)},
     {...(options.blankMode && blankModeScript)}
 ];

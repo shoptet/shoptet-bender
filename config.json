@@ -3,5 +3,7 @@
     "defaultFolder": "./src",
     "outputFolder": "./dist",
     "cssFileName": "/assets/css/style.css",
-    "jsFileName": "/assets/js/script.js"
+    "jsFileName": "/assets/js/script.js",
+    "deleteCssFile": "IdCss",
+    "deleteJsFile": "IdJs"
 }
