@@ -33,7 +33,7 @@ const scriptStyle = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
         return (
-            '<script type="module" src="'+config.jsFileName+'"></script><link rel="stylesheet" href="'+config.cssFileName+'">' +
+            '<script src="'+config.jsFileName+'"></script><link rel="stylesheet" href="'+config.cssFileName+'">' +
             match
         );
     },
