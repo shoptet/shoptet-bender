@@ -1,0 +1,46 @@
+.layer-pobo {
+  background: black;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  color: white;
+  font-size: 15px;
+
+  .layer-pobo-container {
+    align-items: center;
+  }
+
+  .layer-pobo-content {
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px 0;
+
+    a {
+      color: white;
+    }
+  }
+
+  .layer-trigger-close {
+    padding: 7px;
+    text-decoration: none;
+    background: transparent;
+    color: white;
+    display: inline-block;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.is-active-layer-pobo {
+  padding-top: 50px;
+
+  @media (min-width: 469px) {
+    .plugin-fixed-header.active {
+      top: 35px !important;
+    }
+  }
+
+}

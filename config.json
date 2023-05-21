@@ -1,4 +1,5 @@
 {
-    "defaultUrl": "https://classic.shoptet.cz/",
-    "defaultFolder": "./dist"
+    "defaultUrl": "https://pobo.myshoptet.com/",
+    "defaultFolder": "./dist",
+    "outputFolder": "./dist"
 }

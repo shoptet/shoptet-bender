@@ -2,12 +2,12 @@
   "name": "shp-bender",
   "version": "0.0.3",
   "description": "An application for Shoptet visual addons development and local override",
-  "main": "index.js",
   "bin": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
     "watch": "npx parcel src/*.js src/*.less --hmr-port 3000",
+    "build": "npx parcel build src/*.js src/*.less --no-source-maps --dist-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shoptet",
@@ -16,10 +16,11 @@
     "browser-sync": "^2.27.10",
     "commander": "^9.4.0",
     "path": "^0.12.7",
-    "parcel": "^2.7.0"
+    "parcel": "^2.8.3",
+    "js-cookie": "^3.0.5"
   },
   "devDependencies": {
-    "@parcel/transformer-less": "^2.7.0",
-    "@parcel/transformer-sass": "^2.7.0"
+    "@parcel/transformer-less": "^2.8.3",
+    "@parcel/transformer-sass": "^2.8.3"
   }
 }
