@@ -1,11 +1,9 @@
-import debounceScroll from "./../library/debounceScroll";
-import passiveListener from "./../library/passiveListener.js"
-
 export default class WrongScroll {
 	constructor() {
-		// Provdede danou fc při každém scrollu
+		let id = 0;
 		$(window).scroll(() => {
-			// console.log('wrong scroll');
+			console.log('%cWrongScroll, id: ' + id, 'color: red');
+			id++;
 		});
 	}
 }

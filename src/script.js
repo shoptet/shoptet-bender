@@ -2,16 +2,27 @@ import Layer from './javascript/Layer.js';
 import Footer from './javascript/Footer.js';
 import BetterScroll from './javascript/BetterScroll.js';
 import WrongScroll from './javascript/WrongScroll.js';
+import { getLang, getPageType } from './lib/utils.js';
+import BasketProvider from "./javascript/BasketProvider.js";
+
+// window.shoptet.dev.enableEventsMonitoring()
+console.clear();
 
 const layerOption = {
 	cs: {
 		message: "Akční nabídka na Apple produkty pro všechny stále zákazníky.",
-		messageLink: "https://www.alza.cz/apple/18842881.htm",
+		messageLink: "https://www.pobo.cz/",
 		buttonClose: "Zavřít",
-		cookieName: "poboLayerClosed3"
+		cookieName: "poboLayerClosed"
 	},
-	en: {},
-	de: {},
+	en: {
+		message: "Special offer on Apple products for all regular customers.",
+		messageLink: "https://www.pobo.cz/",
+		buttonClose: "Close",
+		cookieName: "poboLayerClosed"
+	},
+	sk: {},
+	de: {}
 	// .. and more
 }
 
@@ -19,7 +30,7 @@ const footerItems = {
 	"cs": [
 		{
 			"title": "O nás",
-			"description": "a na3e vize",
+			"description": "a naše vize",
 			"img": null
 		},
 		{
@@ -30,17 +41,30 @@ const footerItems = {
 
 		{
 			"title": "Záruka",
-			"description": "Výměny zboží",
+			"description": "výměny zboží",
 			"img": null
 		}
 	],
 
-	"en": [],
+	"en": [
+		{
+			"title": "About us",
+			"description": "and our vision",
+			"img": null
+		},
+	],
 	"de": [],
-	// .. and more
+	"sk": [],
 }
 
-new Layer(layerOption, "cs");
-new Footer(footerItems, "cs");
+const lang = getLang();
+const pageType = getPageType();
+
+console.info("Language: ", lang);
+console.info("Page type: ", pageType);
+
+new Layer(layerOption, lang);
+new Footer(footerItems, lang);
 new BetterScroll();
 new WrongScroll();
+new BasketProvider();

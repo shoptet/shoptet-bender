@@ -4,10 +4,12 @@ export default class Footer {
 
 		if (data.length === 0) {
 			console.warn(`Warning, grid is empty via. class Footer`);
+			return;
 		}
 
 		const footer = document.createElement("div");
 		footer.classList.add("row");
+		footer.classList.add("pobo-footer");
 
 		Array.from(data).forEach((item) => {
 			footer.innerHTML += `
@@ -17,6 +19,6 @@ export default class Footer {
 				</div>
 			`;
 		});
-
 		document.getElementById('footer').appendChild(footer);
+	}
 }

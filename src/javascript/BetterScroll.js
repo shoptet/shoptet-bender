@@ -1,13 +1,12 @@
 import debounceScroll from "./../library/debounceScroll";
 import passiveListener from "./../library/passiveListener";
 
-const TIMEOUT = 25;
+const TIMEOUT = 20;
 
 export default class BetterScroll {
 	constructor() {
-		// Zpozdí danou fc až po uplynutí uvedené doby čekání v milisekundách od posledního volání
 		let onScroll = debounceScroll(() => {
-				console.log('Trigger: BetterScroll, timout: ' + TIMEOUT + 'ms');
+				console.log('%cBetterScroll, timout: ' + TIMEOUT + 'ms',  'color: green');
 		}, TIMEOUT);
 		window.addEventListener("scroll", () => onScroll(), passiveListener);
 	}
