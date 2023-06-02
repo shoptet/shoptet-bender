@@ -23,6 +23,17 @@ Install global using yarn:\
 - you need to open a new instance of the CLI interface to take an effect
 
 ## Usage
+### Step-by-step guide to start
+
+1. Create a folder for your files (css, js) that need to be injected to remote e-shop on localhost (let's say "my-project")
+2. Inside your project folder create another folder named "src"
+3. Create or move your "style.css" and "script.js" files into "src" folder
+4. Run --remote e-shop in console (let's say "shp-bender --remote https://classic.shoptet.cz/")
+
+And you're ready to go -> enjoy coding and development ;)
+
+**OR**
+
 Try `shp-bender -h` for CLI help
 
 ## Posible tool improvements
