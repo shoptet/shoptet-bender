@@ -3,6 +3,7 @@
 import browserSync from 'browser-sync';
 import command from './cli.js';
 import { config } from './config.js'
+import { exec } from 'child_process';
 
 command.parse(process.argv);
 
@@ -44,15 +45,28 @@ const rewriteRules = [
     {...(options.blankMode && blankModeScript)}
 ];
 
+console.log(options);
 const bs = browserSync.create();
 bs.init({
     proxy: { target: options.remote ?? config.defaultUrl },
     watch: options.watch,
-    files: [options.folder ? './' + options.folder + '/*' : config.defaultFolder + '/*'],
+    files: [options.folder ? './' + options.folder + '/*' : './' + config.defaultFolder + '/*'],
     serveStatic: [options.folder ?? config.defaultFolder],
     rewriteRules: rewriteRules.filter(
         (value) => Object.keys(value).length !== 0
     ),
+    middleware: [
+        function (req, res, next) {
+            exec('yarn build', (err, stdout, stderr) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log(stdout);
+            });
+            next();
+        },
+    ],
     port: 3010,
     notify: options.notify
 });
