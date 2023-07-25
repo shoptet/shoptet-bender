@@ -18,18 +18,28 @@ const blankModeScript = {
     fn: function () { return ('');},
 };
 
-const scriptStyle = {
+const footerIncludes = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
         return (
-            '<script src="/script.js"></script><link rel="stylesheet" href="/style.css">' +
+            '<script src="/scripts.footer.js"></script><link rel="stylesheet" href="/style.footer.css">' +
             match
+        );
+    },
+}
+const headerIncludes = {
+    match: /<body[^>]*>/i,
+    fn: function (req, res, match) {
+        return (
+            match +
+            '<script src="/scripts.header.js"></script><link rel="stylesheet" href="/style.header.css">'
         );
     },
 }
 
 const rewriteRules = [
-    {...scriptStyle},
+    {...headerIncludes},
+    {...footerIncludes},
     {...(options.blankMode && blankModeStyle)},
     {...(options.blankMode && blankModeScript)}
 ];
