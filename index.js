@@ -50,8 +50,8 @@ const bs = browserSync.create();
 bs.init({
     proxy: { target: options.remote ?? config.defaultUrl },
     watch: options.watch,
-    files: [options.folder ? './' + options.folder + '/*' : './' + config.defaultFolder + '/*'],
-    serveStatic: [options.folder ?? config.defaultFolder],
+    files: [options.folder ? './' + options.folder + '/*' : './' + config.outputFolder + '/*'],
+    serveStatic: [options.folder ?? config.outputFolder],
     rewriteRules: rewriteRules.filter(
         (value) => Object.keys(value).length !== 0
     ),
