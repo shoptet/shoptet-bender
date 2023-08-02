@@ -23,16 +23,6 @@ const blankModeScript = {
 const footerIncludes = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
-        concat(
-            options.folder ?? config.sourceFolder + '/footer',
-            '.js',
-            'scripts.footer.js'
-        );
-        concat(
-            options.folder ?? config.sourceFolder + '/footer',
-            '.css',
-            'styles.footer.css'
-        );
         return (
             '<script src="/scripts.footer.js"></script><link rel="stylesheet" href="/styles.footer.css">' +
             match
