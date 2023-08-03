@@ -3,8 +3,8 @@
 import browserSync from 'browser-sync';
 import command from './cli.js';
 import { config } from './config.js';
-import { exec } from 'child_process';
 import concat from './concatFiles.js';
+import fs from 'fs';
 
 command.parse(process.argv);
 
@@ -20,22 +20,31 @@ const blankModeScript = {
     fn: function () { return ('');},
 };
 
-const footerIncludes = {
-    match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
-    fn: function (req, res, match) {
-        return (
-            '<script src="/scripts.footer.js"></script><link rel="stylesheet" href="/styles.footer.css">' +
-            match
-        );
-    },
-};
 const headerIncludes = {
     match: /<body[^>]*>/i,
     fn: function (req, res, match) {
-        return (
-            match +
-            '<script src="/scripts.header.js"></script><link rel="stylesheet" href="/styles.header.css">'
-        );
+        const headerMarkup =
+            (fs.existsSync(config.outputFolder + '/scripts.header.js')
+                ? '<script src="/scripts.header.js"></script>'
+                : '') +
+            (fs.existsSync(config.outputFolder + '/styles.header.css')
+                ? '<link rel="stylesheet" href="/styles.header.css">'
+                : '');
+        return match + headerMarkup;
+    },
+};
+
+const footerIncludes = {
+    match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
+    fn: function (req, res, match) {
+        const footerMarkup =
+            (fs.existsSync(config.outputFolder + '/scripts.footer.js')
+                ? '<script src="/scripts.footer.js"></script>'
+                : '') +
+            (fs.existsSync(config.outputFolder + '/styles.footer.css')
+                ? '<link rel="stylesheet" href="/styles.footer.css">'
+                : '');
+        return footerMarkup + match;
     },
 };
 
