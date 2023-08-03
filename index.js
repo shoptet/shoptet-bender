@@ -7,12 +7,14 @@ import concat from './concatFiles.js';
 import fs from 'fs';
 import path from 'path';
 
-const rootDir = process.cwd();
-
 command.parse(process.argv);
 
 const options = command.opts();
 
+const rootDir = process.cwd();
+
+const sourceFolder = path.join(rootDir, config.sourceFolder ?? 'src');
+const outputFolder = path.join(rootDir, (options.folder ?? config.outputFolder));
 
 const blankModeStyle = {
     match: /<link\s+href="https:\/\/cdn\.myshoptet\.com\/prj\/[^"]+"[^>]*>/gi,
@@ -27,13 +29,11 @@ const blankModeScript = {
 const headerIncludes = {
     match: /<body[^>]*>/i,
     fn: function (req, res, match) {
-        console.log(path.join(rootDir, config.outputFolder + '/scripts.header.js'));
-        console.log(fs.existsSync(path.join(rootDir, config.outputFolder + '/scripts.header.js')));
         const headerMarkup =
-            (fs.existsSync(config.outputFolder + '/scripts.header.js')
+            (fs.existsSync(outputFolder + '/scripts.header.js')
                 ? '<script src="/scripts.header.js"></script>'
                 : '') +
-            (fs.existsSync(config.outputFolder + '/styles.header.css')
+            (fs.existsSync(outputFolder + '/styles.header.css')
                 ? '<link rel="stylesheet" href="/styles.header.css">'
                 : '');
         return match + headerMarkup;
@@ -43,13 +43,11 @@ const headerIncludes = {
 const footerIncludes = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
-        console.log(path.join(rootDir, config.outputFolder + '/scripts.footer.js'));
-        console.log(fs.existsSync(path.join(rootDir, config.outputFolder + '/scripts.footer.js')));
         const footerMarkup =
-            (fs.existsSync(config.outputFolder + '/scripts.footer.js')
+            (fs.existsSync(outputFolder + '/scripts.footer.js')
                 ? '<script src="/scripts.footer.js"></script>'
                 : '') +
-            (fs.existsSync(config.outputFolder + '/styles.footer.css')
+            (fs.existsSync(outputFolder + '/styles.footer.css')
                 ? '<link rel="stylesheet" href="/styles.footer.css">'
                 : '');
         return footerMarkup + match;
@@ -65,45 +63,45 @@ const rewriteRules = [
 
 const filesWatch = [
     {
-        match: [options.folder ?? config.sourceFolder + '/header/*'],
+        match: [sourceFolder + '/header/*'],
         fn: function (event, file) {
             concat(
-                options.folder ?? config.sourceFolder + '/header',
+                sourceFolder + '/header',
                 '.js',
                 'scripts.header.js'
             );
             concat(
-                options.folder ?? config.sourceFolder + '/header',
+                sourceFolder + '/header',
                 '.css',
                 'styles.header.css'
             );
         },
     },
     {
-        match: [options.folder ?? config.sourceFolder + '/footer/*'],
+        match: [sourceFolder + '/footer/*'],
         fn: function (event, file) {
             concat(
-                options.folder ?? config.sourceFolder + '/footer',
+                sourceFolder + '/footer',
                 '.js',
                 'scripts.footer.js'
             );
             concat(
-                options.folder ?? config.sourceFolder + '/footer',
+                sourceFolder + '/footer',
                 '.css',
                 'styles.footer.css'
             );
         },
     },
     {
-        match: [options.folder ?? config.sourceFolder + '.orderFinale/*'],
+        match: [sourceFolder + '.orderFinale/*'],
         fn: function (event, file) {
             concat(
-                options.folder ?? config.sourceFolder + '.orderFinale',
+                sourceFolder + '.orderFinale',
                 '.js',
                 'scripts.orderFinale.js'
             );
             concat(
-                options.folder ?? config.sourceFolder + '.orderFinale',
+                sourceFolder + '.orderFinale',
                 '.css',
                 'styles.orderFinale.css'
             );
@@ -116,7 +114,7 @@ bs.init({
     proxy: { target: options.remote ?? config.defaultUrl },
     watch: options.watch,
     files: filesWatch,
-    serveStatic: [options.folder ?? config.outputFolder],
+    serveStatic: [outputFolder],
     rewriteRules: rewriteRules.filter(
         (value) => Object.keys(value).length !== 0
     ),
