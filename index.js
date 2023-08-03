@@ -5,10 +5,14 @@ import command from './cli.js';
 import { config } from './config.js';
 import concat from './concatFiles.js';
 import fs from 'fs';
+import path from 'path';
+
+const rootDir = process.cwd();
 
 command.parse(process.argv);
 
 const options = command.opts();
+
 
 const blankModeStyle = {
     match: /<link\s+href="https:\/\/cdn\.myshoptet\.com\/prj\/[^"]+"[^>]*>/gi,
@@ -23,6 +27,8 @@ const blankModeScript = {
 const headerIncludes = {
     match: /<body[^>]*>/i,
     fn: function (req, res, match) {
+        console.log(path.join(rootDir, config.outputFolder + '/scripts.header.js'));
+        console.log(fs.existsSync(path.join(rootDir, config.outputFolder + '/scripts.header.js')));
         const headerMarkup =
             (fs.existsSync(config.outputFolder + '/scripts.header.js')
                 ? '<script src="/scripts.header.js"></script>'
@@ -37,6 +43,8 @@ const headerIncludes = {
 const footerIncludes = {
     match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
     fn: function (req, res, match) {
+        console.log(path.join(rootDir, config.outputFolder + '/scripts.footer.js'));
+        console.log(fs.existsSync(path.join(rootDir, config.outputFolder + '/scripts.footer.js')));
         const footerMarkup =
             (fs.existsSync(config.outputFolder + '/scripts.footer.js')
                 ? '<script src="/scripts.footer.js"></script>'
