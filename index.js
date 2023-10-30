@@ -9,12 +9,12 @@ command.parse(process.argv);
 const options = command.opts();
 
 const blankModeStyle = {
-    match: /<link rel="stylesheet" media="all" href="https:\/\/cdn\.myshoptet\.com.*>/i,
+    match: /<link\s+href="https:\/\/cdn\.myshoptet\.com\/prj\/[^"]+"[^>]*>/gi,
     fn: function () { return ('');},
 }
 
 const blankModeScript = {
-    match: /<script src="https:\/\/cdn.myshoptet.com.*>/i,
+    match: /<script\s+src="https:\/\/cdn\.myshoptet\.com\/prj\/[^"]+"[^>]*>/gi,
     fn: function () { return ('');},
 };
 
