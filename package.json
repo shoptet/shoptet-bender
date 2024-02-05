@@ -6,8 +6,7 @@
   "bin": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "build": "yarn minify"
+    "start": "node index.js"
   },
   "author": "Shoptet",
   "license": "ISC",
