@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 /** @format */
 
-import browserSync from 'browser-sync';
 import command from './cli.js';
 import { config } from './config.js';
-import concat from './concatFiles.js';
 import fs from 'fs';
 import path from 'path';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
@@ -61,23 +59,10 @@ const rewriteRules = [
   { ...(options.blankMode && blankModeScript) },
 ];
 
-// const filesWatch = [
-//   {
-//     match: [outputFolder + '/header/*'],
-//   },
-//   {
-//     match: [outputFolder + '/footer/*'],
-//   },
-//   {
-//     match: [outputFolder + '.orderFinale/*'],
-//   },
-// ];
 
 const bsPlugin = [
   new BrowserSyncPlugin({
     proxy: { target: options.remote ?? config.defaultUrl },
-    watch: options.watch,
-    // files: filesWatch,
     serveStatic: [outputFolder],
     rewriteRules: rewriteRules.filter(value => Object.keys(value).length !== 0),
     port: 3010,
@@ -89,7 +74,7 @@ const bsPlugin = [
 const baseWebpackConfig = getWebpackConfig('development');
 
 const webpackConfig = {
-  watch: true,
+  watch: options.watch,
   ...baseWebpackConfig,
   plugins: [
     ...bsPlugin,

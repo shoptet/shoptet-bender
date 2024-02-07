@@ -33,8 +33,5 @@
     "webpack": "^5.90.1",
     "webpack-obfuscator": "^3.5.1",
     "webpack-remove-empty-scripts": "^1.0.4"
-  },
-  "devDependencies": {
-    "webpack-cli": "^5.1.4"
   }
 }
