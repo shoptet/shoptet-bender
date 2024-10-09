@@ -36,8 +36,18 @@ const blankModeScript = {
 };
 
 const headerIncludes = {
-  match: /<body[^>]*>/i,
+  match:  /(?<=<head[\s\S]*?<!--\sUser include\s-->)[\s\S]*?(?=<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
+    // Remove includes from the header
+    const includes = options.removeHeaderIncludes || config.removeHeaderIncludes || [];
+    const matchedServices = match.match(includesCodeRegex);
+    if (matchedServices) {
+      match = matchedServices.filter(service => {
+        return !includes.some(removedService => service.includes(removedService));
+      }).join('')
+    }
+
+    // Add custom includes to the footer
     const headerMarkup =
       (fs.existsSync(outputFolder + '/scripts.header.js') ? '<script src="/scripts.header.js"></script>' : '') +
       (fs.existsSync(outputFolder + '/styles.header.css') ? '<link rel="stylesheet" href="/styles.header.css">' : '');
@@ -45,35 +55,19 @@ const headerIncludes = {
   },
 };
 
-const removeHeaderIncludes = {
-  match: /(?<=<head[\s\S]*?<!--\sUser include\s-->)[\s\S]*?(?=<!--\s\/User include\s-->)/i,
-  fn: function (req, res, match) {
-    const matchedServices = match.match(includesCodeRegex);
-    if (!matchedServices) {
-      return match;
-    }
-    return matchedServices.filter(service => {
-      return !config.removeHeaderIncludes?.some(removedService => service.includes(removedService));
-    }).join('');
-  },
-};
-
-const removeFooterIncludes = {
+const footerIncludes = {
   match: /(?<=<body[\s\S]*?<!--\sUser include\s-->\s*<div class="container">)[\s\S]*?(?=<\/div>\s*<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
+    // Remove includes from the footer
+    const includes = options.removeFooterIncludes || config.removeFooterIncludes || [];
     const matchedServices = match.match(includesCodeRegex);
-    if (!matchedServices) {
-      return match;
+    if (matchedServices) {
+      match = matchedServices.filter(service => {
+        return !includes.some(removedService => service.includes(removedService));
+      }).join('')
     }
-    return matchedServices.filter(service => {
-      return !config.removeFooterIncludes?.some(removedService => service.includes(removedService));
-    }).join('');
-  },
-};
 
-const footerIncludes = {
-  match: /<body[^>]*>[\s\S]*?<\/body>/i,
-  fn: function (req, res, match) {
+    // Add custom includes to the footer
     const footerMarkup =
       (fs.existsSync(outputFolder + '/scripts.footer.js') ? '<script src="/scripts.footer.js"></script>' : '') +
       (fs.existsSync(outputFolder + '/styles.footer.css') ? '<link rel="stylesheet" href="/styles.footer.css">' : '');
@@ -82,8 +76,6 @@ const footerIncludes = {
 };
 
 const rewriteRules = [
-  { ...removeHeaderIncludes },
-  { ...removeFooterIncludes },
   { ...headerIncludes },
   { ...footerIncludes },
   { ...(options.blankMode && blankModeStyle) },
