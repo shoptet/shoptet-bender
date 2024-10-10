@@ -18,6 +18,9 @@ const rootDir = process.cwd();
 const sourceFolder = path.join(rootDir, config.sourceFolder ?? 'src');
 const outputFolder = path.join(rootDir, options.folder ?? config.outputFolder);
 
+const includesRegex = /<!-- (?:service\s\d+\(\d+\)|api\s\d+\(\d+\)|project)\shtml\s+code\s+(?:header|footer) -->/gi;
+const includesCodeRegex = new RegExp(includesRegex.source + '[\\s\\S]*?(?=' + includesRegex.source + '|$)', 'g');
+
 const blankModeStyle = {
   match: /<link\s+href="https:\/\/cdn\.myshoptet\.com\/prj\/[^"]+"[^>]*>/gi,
   fn: function () {
@@ -33,8 +36,18 @@ const blankModeScript = {
 };
 
 const headerIncludes = {
-  match: /<body[^>]*>/i,
+  match:  /(?<=<head[\s\S]*?<!--\sUser include\s-->)[\s\S]*?(?=<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
+    // Remove includes from the header
+    const includes = options.removeHeaderIncludes || config.removeHeaderIncludes || [];
+    const matchedServices = match.match(includesCodeRegex);
+    if (matchedServices) {
+      match = matchedServices.filter(service => {
+        return !includes.some(removedService => service.includes(removedService));
+      }).join('')
+    }
+
+    // Add custom includes to the footer
     const headerMarkup =
       (fs.existsSync(outputFolder + '/scripts.header.js') ? '<script src="/scripts.header.js"></script>' : '') +
       (fs.existsSync(outputFolder + '/styles.header.css') ? '<link rel="stylesheet" href="/styles.header.css">' : '');
@@ -43,8 +56,18 @@ const headerIncludes = {
 };
 
 const footerIncludes = {
-  match: /<\/body>(?![\s\S]*<\/body>[\s\S]*$)/i,
+  match: /(?<=<body[\s\S]*?<!--\sUser include\s-->\s*<div class="container">)[\s\S]*?(?=<\/div>\s*<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
+    // Remove includes from the footer
+    const includes = options.removeFooterIncludes || config.removeFooterIncludes || [];
+    const matchedServices = match.match(includesCodeRegex);
+    if (matchedServices) {
+      match = matchedServices.filter(service => {
+        return !includes.some(removedService => service.includes(removedService));
+      }).join('')
+    }
+
+    // Add custom includes to the footer
     const footerMarkup =
       (fs.existsSync(outputFolder + '/scripts.footer.js') ? '<script src="/scripts.footer.js"></script>' : '') +
       (fs.existsSync(outputFolder + '/styles.footer.css') ? '<link rel="stylesheet" href="/styles.footer.css">' : '');
@@ -59,7 +82,6 @@ const rewriteRules = [
   { ...(options.blankMode && blankModeScript) },
 ];
 
-
 const bsPlugin = [
   new BrowserSyncPlugin({
     proxy: { target: options.remote ?? config.defaultUrl },
@@ -69,17 +91,14 @@ const bsPlugin = [
     notify: options.notify,
     open: false,
   }),
-]
+];
 
 const baseWebpackConfig = getWebpackConfig('development');
 
 const webpackConfig = {
   watch: options.watch,
   ...baseWebpackConfig,
-  plugins: [
-    ...bsPlugin,
-    ...baseWebpackConfig.plugins,
-  ],
+  plugins: [...bsPlugin, ...baseWebpackConfig.plugins],
 };
 
 webpack(webpackConfig, (err, stats) => {
