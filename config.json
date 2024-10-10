@@ -1,8 +1,5 @@
 {
-    "defaultUrl": "https://363432.myshoptet.com",
+    "defaultUrl": "https://classic.shoptet.cz/",
     "sourceFolder": "./src",
-    "outputFolder": "./dist",
-    "removeFooterIncludes": [
-        "project"
-    ]
+    "outputFolder": "./dist"
 }
