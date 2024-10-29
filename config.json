@@ -1,5 +1,8 @@
 {
     "defaultUrl": "https://classic.shoptet.cz/",
     "sourceFolder": "./src",
-    "outputFolder": "./dist"
+    "outputFolder": "./dist",
+    "addonPrefix": "sample-addon",
+    "addonInfo": "This is description of sample addon",
+    "env": "development"
 }
