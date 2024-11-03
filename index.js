@@ -36,15 +36,17 @@ const blankModeScript = {
 };
 
 const headerIncludes = {
-  match:  /(?<=<head[\s\S]*?<!--\sUser include\s-->)[\s\S]*?(?=<!--\s\/User include\s-->)/i,
+  match: /(?<=<head[\s\S]*?<!--\sUser include\s-->)[\s\S]*?(?=<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
     // Remove includes from the header
     const includes = options.removeHeaderIncludes || config.removeHeaderIncludes || [];
     const matchedServices = match.match(includesCodeRegex);
     if (matchedServices) {
-      match = matchedServices.filter(service => {
-        return !includes.some(removedService => service.includes(removedService));
-      }).join('')
+      match = matchedServices
+        .filter(service => {
+          return !includes.some(removedService => service.includes(removedService));
+        })
+        .join('');
     }
 
     // Add custom includes to the footer
@@ -56,15 +58,18 @@ const headerIncludes = {
 };
 
 const footerIncludes = {
-  match: /(?<=<body[\s\S]*?<!--\sUser include\s-->\s*<div class="container">)[\s\S]*?(?=<\/div>\s*<!--\s\/User include\s-->)/i,
+  match:
+    /(?<=<body[\s\S]*?<!--\sUser include\s-->\s*<div class="container">)[\s\S]*?(?=<\/div>\s*<!--\s\/User include\s-->)/i,
   fn: function (req, res, match) {
     // Remove includes from the footer
     const includes = options.removeFooterIncludes || config.removeFooterIncludes || [];
     const matchedServices = match.match(includesCodeRegex);
     if (matchedServices) {
-      match = matchedServices.filter(service => {
-        return !includes.some(removedService => service.includes(removedService));
-      }).join('')
+      match = matchedServices
+        .filter(service => {
+          return !includes.some(removedService => service.includes(removedService));
+        })
+        .join('');
     }
 
     // Add custom includes to the footer
